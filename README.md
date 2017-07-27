@@ -1,13 +1,13 @@
 # mocker: an HTTP mock tool
 
 ## Usage
-Configure a mock with a .toml file like this:
+Configure your mock service with a .toml file like this:
 ```
 port = 1312
 route = "/users"
 response = '{"users": []}'
 ```
-Run the mock server:
+Serve the mock with the config you defined:
 ```
 mocker file.toml
 ```
