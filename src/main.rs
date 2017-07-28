@@ -37,6 +37,11 @@ impl Handler for ResponseHandler {
     }
 }
 
+fn print_banner(host: &String, route: &String) {
+    println!("Starting mocker on {}...", host);
+    println!("Active route is: '{}'", route);
+}
+
 pub fn main() {
     let args: Vec<String> = env::args().collect();
     let path = Path::new(&args[1]);
@@ -50,18 +55,17 @@ pub fn main() {
     file.read_to_string(&mut toml_config)
         .expect("something went wrong reading the file");
 
-    let config: Config = toml::from_str(&toml_config).unwrap();
+    let config: Config = toml::from_str(&toml_config).expect("Could not parse TOML file.");
 
     println!("Service config: {:#?}", config);
 
-    let port = config.port.unwrap();
-    let route = config.route.unwrap();
-    let response_body = config.response.unwrap();
-    let content_type = config.content_type.unwrap();
+    let port = config.port.unwrap_or(8080);
+    let route = config.route.unwrap_or("/".to_owned());
+    let response_body = config.response.unwrap_or("".to_owned());
+    let content_type = config.content_type.unwrap_or("application/json".to_owned());
     let host = "0.0.0.0:".to_owned() + &port.to_string();
 
-    println!("\nRunning on {}...", host);
-    println!("=> Active route is: '{}'", route);
+    print_banner(&host, &route);
 
     let mut router = Router::new();
 
