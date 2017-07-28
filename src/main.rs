@@ -74,6 +74,6 @@ pub fn main() {
         content_type: content_type
     };
 
-    router.get(route, handler, "handler");
+    router.any(route, handler, "handler");
     Iron::new(router).http(host).unwrap();
 }
