@@ -20,16 +20,19 @@ struct Config {
     port: Option<u16>,
     route: Option<String>,
     response: Option<String>,
+    content_type: Option<String>,
 }
 
 struct ResponseHandler {
-    response: String
+    response: String,
+    content_type: String
 }
 
 impl Handler for ResponseHandler {
     fn handle(&self, _: &mut Request) -> IronResult<Response> {
         let mut resp = Response::with((status::Ok, self.response.clone()));
-        resp.headers.set_raw("content-type", vec![b"application/json".to_vec()]);
+        let content_type = self.content_type.as_bytes().to_vec();
+        resp.headers.set_raw("content-type", vec![content_type]);
         Ok(resp)
     }
 }
@@ -54,6 +57,7 @@ pub fn main() {
     let port = config.port.unwrap();
     let route = config.route.unwrap();
     let response_body = config.response.unwrap();
+    let content_type = config.content_type.unwrap();
     let host = "0.0.0.0:".to_owned() + &port.to_string();
 
     println!("\nRunning on {}...", host);
@@ -62,7 +66,8 @@ pub fn main() {
     let mut router = Router::new();
 
     let handler = ResponseHandler {
-        response: response_body
+        response: response_body,
+        content_type: content_type
     };
 
     router.get(route, handler, "handler");

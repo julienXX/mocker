@@ -6,6 +6,7 @@ Configure your mock service with a .toml file like this:
 port = 1312
 route = "/users"
 response = '{"users": []}'
+content_type = 'application/json'
 ```
 Serve the mock with the config you defined:
 ```
