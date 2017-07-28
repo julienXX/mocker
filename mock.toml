@@ -1,4 +1,4 @@
 port = 1312
-route = "/users"
-response = '{"users": []}'
+route = "/users/*"
+response = '{"id": 42, "name": "Karl"}'
 content_type = 'application/json'
