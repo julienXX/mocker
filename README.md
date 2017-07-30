@@ -7,10 +7,10 @@ The main benefit of the tool right now is the possibility to share those `.toml`
 ## Usage
 Configure your mock service by creating a `file.toml` file like this:
 ```
-port = 1312                               # default is 8080
-route = "/users/*"                        # default is /
-response = '{"id": 42, "name": "Karl"}'   # default is ""
-content_type = 'application/json'         # default is 'application/json'
+port = 1312                                   # default is 8080
+route = "/users/*"                            # default is /
+response = '{"id": 1871, "name": "Louise"}'   # default is ""
+content_type = 'application/json'             # default is 'application/json'
 ```
 Serve the mock with the config you defined:
 ```
@@ -21,13 +21,13 @@ Active route is: '/users/*'
 ```
 Test it:
 ```
-λ curl -i "0.0.0.0:1312/users/3"
+λ curl -i "0.0.0.0:1312/users/42"
 HTTP/1.1 200 OK
 Content-Length: 26
 Content-Type: application/json
 Date: Fri, 28 Jul 2017 08:39:34 GMT
 
-{"id": 42, "name": "Karl"}%
+{"id": 1871, "name": "Louise"}%
 ```
 
 ## Example: an InfluxDB mock.
@@ -106,6 +106,14 @@ Date: Fri, 28 Jul 2017 09:56:40 GMT
         }
     ]
 }
+```
+## Installation
+I'll provide pre-compiled binaries, in the meantime:
+- install the rust toolchain https://www.rustup.rs
+- clone the repository and:
+```
+λ cargo build --release
+λ cp target/release/mocker /usr/local/bin
 ```
 ## TODO
 - [x] handle different content types
